@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Card Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Your existing content -->
+  <div class="text">Bridge Spill</div>
+
+  <!-- Player Rectangles -->
+  <div class="diamond-container">
+    <div class="North-deck deck">
+      <div class="username">North</div>
+      <div class="card-container" id="North-cards"></div>
+      <div class="card-count">Antall kort: 0</div>
+    </div>
+    <div class="West-deck deck">
+      <div class="username">West</div>
+      <div class="card-container" id="West-cards"></div>
+      <div class="card-count">Antall kort: 0</div>
+    </div>
+    <div class="East-deck deck">
+      <div class="username">East</div>
+      <div class="card-container" id="East-cards"></div>
+      <div class="card-count">Antall kort: 0</div>
+    </div>
+    <div class="South-deck deck">
+      <div class="username">South</div>
+      <div class="card-container" id="South-cards"></div>
+      <div class="card-count">Antall kort: 0</div>
+    </div>
+  </div>
+
+<!-- Include your existing scripts -->
+<script src="bundle.js"></script>
+
+<!-- Add a script for dynamically updating usernames -->
+<script>
+  // Wait for the DOM to be ready
+  document.addEventListener("DOMContentLoaded", function () {
+    // Function to fetch and update player names
+    function updatePlayerNames() {
+      fetch('/api/players') // Assuming you have an endpoint to get the list of players
+        .then(response => response.json())
+        .then(players => {
+          // Update usernames on the HTML page
+          players.forEach(player => {
+            const usernameElement = document.querySelector(`.${player.position}-deck .username`);
+            if (usernameElement) {
+              usernameElement.textContent = player.name;
+            }
+          });
+        })
+        .catch(error => console.error('Error fetching player names:', error));
+    }
+
+    // Call the function initially to set up the initial state
+    updatePlayerNames();
+
+    // Optionally, set up a periodic refresh to keep the usernames up-to-date
+    setInterval(updatePlayerNames, 5000); // Refresh every 5 seconds (adjust as needed)
+  });
+</script>
