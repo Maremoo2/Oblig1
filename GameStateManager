@@ -1,0 +1,25 @@
+// GameStateManager.ts
+import { Position, PositionHelper } from './Position';
+
+export class GameStateManager {
+    private currentBiddingPlayerPosition: Position = Position.North;
+
+    getNextBiddingPlayerPosition(): Position {
+        const currentPlayerPosition = this.currentBiddingPlayerPosition;
+        this.currentBiddingPlayerPosition = this.getNextPosition(currentPlayerPosition);
+        return currentPlayerPosition;
+    }
+
+    private getNextPosition(position: Position): Position {
+        // Implement logic to get the next position based on your game rules
+        // For example, you can rotate positions in a clockwise order.
+        // Adjust this logic based on your specific requirements.
+        switch (position) {
+            case Position.North: return Position.East;
+            case Position.East: return Position.South;
+            case Position.South: return Position.West;
+            case Position.West: return Position.North;
+            default: return Position.North; // Default to North if an unexpected value is received
+        }
+    }
+}
